@@ -12,3 +12,8 @@ router.get('/users/:id', model.getUserById);
 router.post('/users', model.createUser);
 router.put('/users/:id', model.updateUser);
 router.delete('/users/:id', model.deleteUser);
+
+router.get('/', (req, res) => {
+    res.send('Welcome to the Game API');
+});
+module.exports = router;

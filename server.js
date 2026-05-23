@@ -1,5 +1,6 @@
 const dotnev = require('dotenv');
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongodb = require('./model/db'); // Import the MongoDB connection module
 
 const swaggerUI = require('swagger-ui-express');

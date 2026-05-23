@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/omarlinp/CES-341-final-project#readme",
   "dependencies": {
+    "body-parser": "^2.2.2",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongodb": "^7.2.0",
