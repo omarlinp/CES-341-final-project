@@ -5,10 +5,9 @@ const doc = {
         title: 'Game API',
         description: 'API for managing games and users'
     },
-    host: 'localhost:3000',
-    schemes: ['http']
+    host: 'ces-341-final-project.onrender.com',
+    schemes: ['https']
 };
-
 const outputFile = './swagger.json';
 const endpointsFiles = ['./controller/routes.js'];
 
