@@ -24,7 +24,16 @@ const getGameById = async (req, res) => {
 }
 const createGame = async (req, res) => {
     const game = {
-        title: req.body.title
+        title: req.body.title,
+        description: req.body.description,
+        ReleaseDate: req.body.ReleaseDate,
+        SteamLink: req.body.SteamLink,
+        studio: req.body.studio,
+        publisher: req.body.publisher,
+        genre: req.body.genre,
+        rating: req.body.rating
+
+
     };
     const POST = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).insertOne(game);
     if (POST.acknowledged) {
@@ -34,7 +43,16 @@ const createGame = async (req, res) => {
 const updateGame = async (req, res) => {
     const gameId = new ObjectId(req.params.id);
     const game = {
-        title: req.body.title
+        title: req.body.title,
+        description: req.body.description,
+        ReleaseDate: req.body.ReleaseDate,
+        SteamLink: req.body.SteamLink,
+        studio: req.body.studio,
+        publisher: req.body.publisher,
+        genre: req.body.genre,
+        rating: req.body.rating
+
+
     };
     const PUT = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).replaceOne({ _id: gameId }, game);
     if (PUT.acknowledged) {
@@ -69,7 +87,10 @@ const getUserById = async (req, res) => {
 }
 const createUser = async (req, res) => {
     const user = {
-        username: req.body.username
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email,
+        type: req.body.type
     };
     const POST = await mongodb.getDb().collection(process.env.COLLECTION_USERS).insertOne(user);
     if (POST.acknowledged) {
@@ -79,7 +100,10 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = new ObjectId(req.params.id);
     const user = {
-        username: req.body.username
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email,
+        type: req.body.type
     };
     const PUT = await mongodb.getDb().collection(process.env.COLLECTION_USERS).replaceOne({ _id: userId }, user);
     if (PUT.acknowledged) {
