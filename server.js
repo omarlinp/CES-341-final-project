@@ -1,9 +1,9 @@
 const dotnev = require('dotenv');
 const express = require('express');
-const mongodb = require('./db/mongodb'); // Import the MongoDB connection module
+const mongodb = require('./model/db'); // Import the MongoDB connection module
 
 
-dotenv.config();
+dotnev.config();
 const port = process.env.PORT || 3000;
 const app = express();
 
