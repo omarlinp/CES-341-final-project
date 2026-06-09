@@ -4,16 +4,26 @@ ObjectId = require('mongodb').ObjectId;
 
 /*this is for handling the game collection*/
 const getGamesData = async (req, res) => {
-    const GET = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).find();
-        GET.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists);
-        })
+    try{
+        const GET = await mongodb
+                            .getDb()
+                            .collection(process.env.COLLECTION_GAMES)
+                            .find();
+
+                GET.toArray().then((lists) => {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.status(200).json(lists);
+                })
+    }catch(err){
+        res.status(500).json({ message: 'Error fetching games data', error: err });
+    }
+    
 }
 
 const getGameById = async (req, res) => {
     const gameId = new ObjectId(req.params.id);
-    const GET = await mongodb
+    try{
+        const GET = await mongodb
             .getDb()
             .collection(process.env.COLLECTION_GAMES)
             .find({ _id: gameId });
@@ -21,6 +31,10 @@ const getGameById = async (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(lists[0]);
         })
+    }catch(err){
+        res.status(500).json({ message: 'Error fetching game data', error: err });
+    }
+    
 }
 const createGame = async (req, res) => {
     const game = {
@@ -35,10 +49,16 @@ const createGame = async (req, res) => {
 
 
     };
-    const POST = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).insertOne(game);
-    if (POST.acknowledged) {
-        res.status(201).json(POST);
+
+    try{
+        const POST = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).insertOne(game);
+            if (POST.acknowledged) {
+                res.status(201).json(POST);
+            }
+    }catch(err){
+        res.status(500).json({ message: 'Error creating game', error: err });
     }
+    
 }
 const updateGame = async (req, res) => {
     const gameId = new ObjectId(req.params.id);
@@ -54,36 +74,58 @@ const updateGame = async (req, res) => {
 
 
     };
-    const PUT = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).replaceOne({ _id: gameId }, game);
-    if (PUT.acknowledged) {
-        res.status(204).json(PUT);
+    try{
+        const PUT = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).replaceOne({ _id: gameId }, game);
+        if (PUT.acknowledged) {
+            res.status(204).json(PUT);
+        }
+    }catch(err){
+        res.status(500).json({ message: 'Error updating game', error: err });
     }
 }
 const deleteGame = async (req, res) => {
     const gameId = new ObjectId(req.params.id);
-    const DELETE = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).deleteOne({ _id: gameId });
-    if (DELETE.acknowledged) {
-        res.status(204).json(DELETE);
+    try{
+        const DELETE = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).deleteOne({ _id: gameId });
+        if (DELETE.acknowledged) {
+            res.status(204).json(DELETE);
+        }
+    }catch(err){
+        res.status(500).json({ message: 'Error deleting game', error: err });
     }
 }
 /*this is for handling the user collection*/
 const getUsersData = async (req, res) => {
-    const result = await mongodb.getDb().collection(process.env.COLLECTION_USERS).find();
+    try{
+    const result = 
+        await mongodb
+        .getDb()
+        .collection(process.env.COLLECTION_USERS)
+        .find();
+        
         result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists);
-        })
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(lists);
+            })
+    }catch(err){
+        res.status(500).json({ message: 'Error fetching users data', error: err });
+    }
+    
 }
 const getUserById = async (req, res) => {
     const userId = new ObjectId(req.params.id);
-    const result = await mongodb
+    try{
+        const result = await mongodb
             .getDb()
             .collection(process.env.COLLECTION_USERS)
             .find({ _id: userId });
         result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists[0]);
-        })
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(lists[0]);
+        });
+    }catch(err){
+        res.status(500).json({ message: 'Error fetching user data', error: err });
+    }
 }
 const createUser = async (req, res) => {
     const user = {
@@ -92,9 +134,13 @@ const createUser = async (req, res) => {
         email: req.body.email,
         type: req.body.type
     };
-    const POST = await mongodb.getDb().collection(process.env.COLLECTION_USERS).insertOne(user);
-    if (POST.acknowledged) {
-        res.status(201).json(POST);
+    try{
+        const POST = await mongodb.getDb().collection(process.env.COLLECTION_USERS).insertOne(user);
+            if (POST.acknowledged) {
+                res.status(201).json(POST);
+            }
+    }catch(err){
+        res.status(500).json({ message: 'Error creating user', error: err });
     }
 }
 const updateUser = async (req, res) => {
@@ -105,16 +151,24 @@ const updateUser = async (req, res) => {
         email: req.body.email,
         type: req.body.type
     };
-    const PUT = await mongodb.getDb().collection(process.env.COLLECTION_USERS).replaceOne({ _id: userId }, user);
-    if (PUT.acknowledged) {
-        res.status(204).json(PUT);
+    try{
+        const PUT = await mongodb.getDb().collection(process.env.COLLECTION_USERS).replaceOne({ _id: userId }, user);
+        if (PUT.acknowledged) {
+            res.status(204).json(PUT);
+        }
+    }catch(err){
+        res.status(500).json({ message: 'Error updating user', error: err });
     }
 }
 const deleteUser = async (req, res) => {
     const userId = new ObjectId(req.params.id);
-    const DELETE = await mongodb.getDb().collection(process.env.COLLECTION_USERS).deleteOne({ _id: userId });
-    if (DELETE.acknowledged) {
-        res.status(204).json(DELETE);
+    try{
+        const DELETE = await mongodb.getDb().collection(process.env.COLLECTION_USERS).deleteOne({ _id: userId });
+        if (DELETE.acknowledged) {
+            res.status(204).json(DELETE);
+        }
+    }catch(err){
+        res.status(500).json({ message: 'Error deleting user', error: err });
     }
 }
 
