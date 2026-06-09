@@ -19,6 +19,9 @@ app
     })
     .use('/', require('./controller/routes'));
 
+process.on('uncaughtException', (err, origin) => {
+    console.log(`Caught exception: ${err}\n` + `Exception origin: ${origin}`);
+});
     
 
 mongodb.connectToDatabase((err) => {
