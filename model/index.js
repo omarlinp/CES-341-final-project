@@ -22,6 +22,10 @@ const getGamesData = async (req, res) => {
 
 const getGameById = async (req, res) => {
     const gameId = new ObjectId(req.params.id);
+    if (!ObjectId.isValid(gameId)) {
+        res.status(400).json({ message: 'Invalid game ID' });
+        return;
+    }
     try{
         const GET = await mongodb
             .getDb()
@@ -114,6 +118,10 @@ const getUsersData = async (req, res) => {
 }
 const getUserById = async (req, res) => {
     const userId = new ObjectId(req.params.id);
+    if (!ObjectId.isValid(userId)) {
+        res.status(400).json({ message: 'Invalid user ID' });
+        return;
+    }
     try{
         const result = await mongodb
             .getDb()

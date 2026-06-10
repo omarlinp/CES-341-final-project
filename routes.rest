@@ -4,3 +4,14 @@ GET http://localhost:3000/games
 
 ###
 GET http://localhost:3000/users
+
+###
+POST http://localhost:3000/games
+Content-Type: application/json
+
+{
+    "title": "New Game",
+    "genre": "Action",
+    "releaseYear": 2024,
+    "developer": "New Devs"
+}
