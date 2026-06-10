@@ -17,7 +17,7 @@ app
         res.header('Access-Control-Allow-Origin', '*');
         next();
     })
-    .use('/', require('./controller/routes'));
+    .use('/', require('./routes/routes'));
 
     
 
