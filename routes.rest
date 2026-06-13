@@ -12,6 +12,5 @@ Content-Type: application/json
 {
     "title": "New Game",
     "genre": "Action",
-    "releaseYear": 2024,
     "developer": "New Devs"
 }
