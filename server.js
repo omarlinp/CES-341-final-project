@@ -1,4 +1,4 @@
-const dotnev = require('dotenv');
+const dotenv = require('dotenv');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('./model/db'); // Import the MongoDB connection module
@@ -6,9 +6,16 @@ const mongodb = require('./model/db'); // Import the MongoDB connection module
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
-dotnev.config();
-const port = process.env.PORT || 3000;
+dotenv.config();
+const port = process.env.PORT || 7000;
 const app = express();
+
+//oauth constants
+const session = require('express-session');
+const passport = require('./helpers/auth');
+app.use(session({secret:'cats'}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app
     .use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
@@ -17,7 +24,9 @@ app
         res.header('Access-Control-Allow-Origin', '*');
         next();
     })
-    .use('/', require('./routes/routes'));
+    .use('/', require('./routes/routes'))
+    .use('/login', require('./routes/login'))
+    ;
 
     
 
