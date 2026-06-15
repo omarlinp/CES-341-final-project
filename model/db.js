@@ -12,7 +12,13 @@ const connectToDatabase =  (callback) => {
         console.log('Already connected to database');
         return callback(null, db);
     }
-    MongoClient.connect(url).then(client => {
+    MongoClient.connect(url, {
+        maxPoolSize: 10,
+        minPoolSize: 2,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+        connectTimeoutMS: 10000
+    }).then(client => {
         db = client.db(dbName);
         console.log('Connected to database successfully');
         callback(null, db);

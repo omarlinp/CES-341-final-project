@@ -142,13 +142,14 @@ const createUser = async (req, res) => {
         email: req.body.email,
         type: req.body.type
     };
-    try{
+
+    try {
         const POST = await mongodb.getDb().collection(process.env.COLLECTION_USERS).insertOne(user);
-            if (POST.acknowledged) {
-                res.status(201).json(POST);
-            }
-    }catch(err){
-        res.status(500).json({ message: 'Error creating user', error: err });
+        if (POST.acknowledged) {
+            return res.status(201).json(POST);
+        }
+    } catch(err) {
+        return res.status(500).json({ message: 'Error creating user', error: err });
     }
 }
 const updateUser = async (req, res) => {

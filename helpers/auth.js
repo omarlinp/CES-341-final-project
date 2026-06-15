@@ -1,6 +1,7 @@
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const passport = require('passport');
 const dotenv = require('dotenv');
+const test = require('./test');
 
 dotenv.config();
 
@@ -11,7 +12,15 @@ passport.use(
         callbackURL: 'http://localhost:5555/login/google/callback',
         passReqToCallback: true
     },
-    function(request, accessToken, refreshToken, profile, done) {
+    async function(request, accessToken, refreshToken, profile, done) {
+        const id = await test.find(profile.id);
+        console.log(id);
+        if(!id) {
+            await test.create(profile);
+        }
+   
+
+
         return done(null, profile);
     }));
 

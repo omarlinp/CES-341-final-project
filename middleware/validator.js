@@ -13,13 +13,14 @@ const validateGame = (req, res, next) => {
     };
     validatejs(req.body, validationRules, {}, (err, status) => {
         if (!status) {
-            res.status(412).json({ 
+            return res.status(412).json({ 
                 sucess: false,
                 message: 'Validation failed', 
                 errorcode: 412,
                 errors: err.errors 
             });
         }
+        next();
     });
 }
 
@@ -27,17 +28,17 @@ const validateUser = (req, res, next) => {
     const validationRules = {
         username: 'required|string',
         email: 'required|email',
-        password: 'required|string|min:6'
     };
     validatejs(req.body, validationRules, {}, (err, status) => {
         if (!status) {
-            res.status(412).json({ 
+            return res.status(412).json({ 
                 sucess: false,
                 message: 'Validation failed', 
                 errorcode: 412,
                 errors: err.errors 
             });
         }
+        next();
     });
 }
 
