@@ -5,10 +5,10 @@
     "description": "API for managing games and users",
     "version": "1.0.0"
   },
-  "host": "localhost:5555",
+  "host": "ces-341-final-project.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/games": {
