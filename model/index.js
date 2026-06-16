@@ -13,9 +13,10 @@ const getGamesData = async (req, res) => {
                 GET.toArray().then((lists) => {
                     res.setHeader('Content-Type', 'application/json');
                     res.status(200).json(lists);
+                    return;
                 })
     }catch(err){
-        res.status(500).json({ message: 'Error fetching games data', error: err });
+        return res.status(500).json({ message: 'Error fetching games data', error: err });
     }
     
 }
@@ -23,8 +24,7 @@ const getGamesData = async (req, res) => {
 const getGameById = async (req, res) => {
     const gameId = new ObjectId(req.params.id);
     if (!ObjectId.isValid(gameId)) {
-        res.status(400).json({ message: 'Invalid game ID' });
-        return;
+        return res.status(400).json({ message: 'Invalid game ID' });
     }
     try{
         const GET = await mongodb
@@ -35,8 +35,9 @@ const getGameById = async (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).json(lists[0]);
         })
+        return;
     }catch(err){
-        res.status(500).json({ message: 'Error fetching game data', error: err });
+        return res.status(500).json({ error:'there was an error'});
     }
     
 }
@@ -58,9 +59,10 @@ const createGame = async (req, res) => {
         const POST = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).insertOne(game);
             if (POST.acknowledged) {
                 res.status(201).json(POST);
+                return;
             }
     }catch(err){
-        res.status(500).json({ message: 'Error creating game', error: err });
+        return res.status(500).json({ message: 'Error creating game', error: err });
     }
     
 }
@@ -81,10 +83,11 @@ const updateGame = async (req, res) => {
     try{
         const PUT = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).replaceOne({ _id: gameId }, game);
         if (PUT.acknowledged) {
-            res.status(204).json(PUT);
+            return res.status(204).json(PUT);
+
         }
     }catch(err){
-        res.status(500).json({ message: 'Error updating game', error: err });
+        return res.status(500).json({ message: 'Error updating game', error: err });
     }
 }
 const deleteGame = async (req, res) => {
@@ -92,10 +95,10 @@ const deleteGame = async (req, res) => {
     try{
         const DELETE = await mongodb.getDb().collection(process.env.COLLECTION_GAMES).deleteOne({ _id: gameId });
         if (DELETE.acknowledged) {
-            res.status(204).json(DELETE);
+            return res.status(204).json(DELETE);
         }
     }catch(err){
-        res.status(500).json({ message: 'Error deleting game', error: err });
+        return res.status(500).json({ message: 'Error deleting game', error: err });
     }
 }
 /*this is for handling the user collection*/

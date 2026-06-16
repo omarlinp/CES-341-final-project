@@ -5,8 +5,8 @@ const doc = {
         title: 'Game API',
         description: 'API for managing games and users'
     },
-    host: 'ces-341-final-project.onrender.com',
-    schemes: ['https']
+    host: process.env.NODE_ENV === 'production' ? 'ces-341-final-project.onrender.com' : 'localhost:5555',
+    schemes: process.env.NODE_ENV === 'production' ? ['https'] : ['http']
 };
 const outputFile = './swagger.json';
 const endpointsFiles = ['./routes/routes.js'];
